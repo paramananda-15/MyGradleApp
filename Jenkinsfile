@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     stages {
+
         stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/paramananda-15/MyGradleApp.git'
@@ -11,17 +12,14 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'chmod +x gradlew'
-                sh './gradlew build'
+                sh './gradlew clean build'
             }
         }
-    }
 
-    post {
-        success {
-            echo 'Build Successful'
-        }
-        failure {
-            echo 'Build Failed'
+        stage('Test') {
+            steps {
+                sh './gradlew test'
+            }
         }
     }
 }
